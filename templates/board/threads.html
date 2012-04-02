@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block body %}
+<ul class="breadcrumb">
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="/r">Board</a> {% if tag %}<span class="divider">/</span>{% endif %}
+  </li>
+	{% if tag %}
+	<li>
+    <a href="/r/tag/{{tag.slug}}">{{ tag.name }}</a>
+  </li>
+	<li style="float:right;">
+    <a href="/r/add/{{tag.slug}}">Add</a>
+  </li>
+	{% endif %}
+</ul>
+
+<div class="main">
+
+<!-- {% load filter %} -->
+		{% if threads.object_list %}
+		<ul class="thread-list">
+			{% for thread in threads.object_list %}
+			<li>
+			<a class="avatar" href="/member/{{ thread.author.username }}"><img src="{{thread.author.email|gravatar }}"></a>
+			<span class="post-meta">
+				<a href="/member/{{ thread.author.username }}" class="author">{% if thread.author.get_full_name %}{{thread.author.get_full_name}} {% else %} {{ thread.author.username }} {% endif %}</a>  -  <a class="stamp" href="/r/{{thread.key}}" title="{{thread.updated|date:"Y-m-d H:i:s"}}"> {{thread.updated|timesince}} ago</a>  -  <a href="/r/tag/{{thread.tag.slug}}" class="node">{{thread.tag.name}}</a></span>
+			<span class="post-title"><a href="/r/{{thread.key}}" class="">{{thread.title}}</a></span>
+			<span class="stamp"></span>
+			</li>
+			{% endfor %}
+		</ul>
+		
+		{% if threads.paginator.page_range_list %}
+		<div class="pagination">
+		  <ul>
+				{% if threads.has_previous %}
+				<li><a href="?page={{ threads.previous_page_number }}">Prev</a></li>
+				{%else%}
+				<li class="disabled"><a href="#">Prev</a></li>
+        {% endif %}
+		    
+				{% for page in threads.paginator.page_range_list %}
+					{% if not page %}
+						<li class="disabled"><a href="#">...</a></li>
+					{%else%}
+						{% ifequal page threads.number %}
+						<li class="active"><a href="?page={{page}}">{{page}}</a></li>
+						{%else%}
+						<li><a href="?page={{page}}">{{page}}</a></li>
+						{%endifequal%}
+					{% endif %}	
+				{% endfor %}
+				{% if threads.has_next %}
+						<li><a href="?page={{ threads.next_page_number }}">Next</a></li>
+				{%else%}
+						<li class="disabled"><a href="#">Next</a></li>
+        {% endif %}
+		    
+		  </ul>
+		</div>
+		{% endif %}
+		
+		{% endif %}
+</div>
+
+{% if tags %}
+<div class="main">
+	<div class="table table-striped">
+		{% for tag in tags %}
+			<span><a href="/r/tag/{{tag.slug}}" class="btn">{{tag.name}}</a></span>
+		{% endfor %}
+	</div>
+</div>	
+{% endif %}
+	
+{% endblock %}

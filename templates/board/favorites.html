@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+<ul class="breadcrumb">
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="/r">Board</a> <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="/r/favorites">Favorites</a>
+  </li>
+</ul>
+<div class="main">
+
+
+	<ul>
+		{% for favorite in favorites %}
+		<li><a href="/r/{{favorite.thread.key}}"> {{favorite.thread.title}}</a> </li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}

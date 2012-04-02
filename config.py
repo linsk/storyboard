@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+# encoding: utf-8
+"""
+config.py
+
+Created by Darcy Liu on 2012-03-03.
+Copyright (c) 2012 Close To U. All rights reserved.
+"""
+
+options = {
+    'sitename': 'Story Board',
+    'tagline': 'Fun with Programming.',
+    'ga': 'UA-1390856-1',
+    'version': '0.1.0'
+}
+

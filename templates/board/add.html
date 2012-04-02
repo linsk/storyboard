@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+<ul class="breadcrumb">
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="/r">Board</a> <span class="divider">/</span>
+  </li>
+	<li>
+    <a href="/r/tag/{{tag.slug}}">{{ tag.name }}</a> <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="/r/add/{{tag.slug}}">New Thread</a>
+  </li>
+</ul>
+
+<div class="main">
+<form action="" method="POST">
+	{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+<div class="form-actions">
+	<button type="submit" class="btn btn-primary">Publish</button>
+</div>
+</form>
+</div>
+{% endblock %}

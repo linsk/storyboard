@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="main">
+<form action="" method="POST">
+	{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+<div class="form-actions">
+	<button type="submit" class="btn btn-primary">Login</button>
+</div>
+</form>
+</div>
+{% endblock %}
+

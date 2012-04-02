@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% load filter %}
+{% block body %}
+<ul class="breadcrumb">
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="/r">Board</a> <span class="divider">/</span>
+  </li>
+	<li>
+    <a href="/r/tag/{{thread.tag.slug}}">{{ thread.tag.name }}</a> <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="/r/{{ thread.key }}">{{ thread.title|limit:'30' }}</a>
+  </li>
+	<li style="float:right;">
+    <a href="/r/add/{{thread.tag.slug}}">Add</a>
+  </li>
+</ul>
+<div class="main">
+	<div class="thread-content">
+		<a class="avatar" href="/member/{{ thread.author.username }}"><img src="{{ thread.author.email|gravatar }}"></a>
+		<span class="post-meta"><a href="/member/{{ thread.author.username }}" class="author">{% if thread.author.get_full_name %}{{thread.author.get_full_name}} {% else %} {{ thread.author.username }} {% endif %}</a>  -  <a class="stamp" href="/r/{{thread.key}}" title="{{ thread.updated|date:"Y-m-d H:i:s" }}">{{ thread.updated|timesince}} ago</a>  -  <a href="/r/tag/{{thread.tag.slug}}" class="node">{{thread.tag.name}}</a></span>
+	</div>
+	<div class="updates">
+		<div class="page-header">
+		  <h2>{{ thread.title }}</h2>
+		</div>
+		<div class="thread-content">{{ thread.text|imgize|urlize|linebreaks }}</div>
+		<div class="thread-meta">
+			{% if user.is_authenticated %}{% if favorite %}<a href="/r/{{ thread.key }}/favorite?action=undo">Unfavorite</a>{%else%}<a href="/r/{{ thread.key }}/favorite">Favorite</a>{%endif%} {%else%}Favorite{%endif%}  -  Comment  -  Share {{ thread.updated|date:"Y-m-d H:i:s" }}</div>
+		{%if comments%}
+		<div class="xmain">
+			<ul class="thread-list comments">
+				{% for comment in comments %}
+				<li class="thread-comment" id="comment-item-{{comment.key}}">
+				<a class="avatar" href="/member/{{ comment.author.username }}"><img src="{{comment.author.email|gravatar:'32' }}"></a>
+				<span class="post-meta">
+					<a name="r{{comment.key}}"></a>
+					<a href="/member/{{ comment.author.username }}" class="author">{% if comment.author.get_full_name %}{{comment.author.get_full_name}} {% else %} {{ comment.author.username }} {% endif %}</a>  <a class="stamp" href="/r/{{thread.key}}#r{{comment.key}}" title="{{comment.updated|date:"Y-m-d H:i:s"}}">{{comment.updated|timesince}} ago</a> - <a class="stamp" href="/r/{{thread.key}}#r{{comment.key}}">#{{forloop.counter}}</a>
+					</span>
+				<div class="comment-content">{{ comment.text|imgize|urlize|linebreaks }}</div>
+				
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
+	</div>	
+
+</div>
+
+<div class="main">
+	{% if user.is_authenticated %}
+	<form action="" method="POST" class="form-horizontal">
+		{% csrf_token %}
+	<table>
+	{{ form.as_table }}
+	</table>
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Save changes</button>
+	</div>
+	</form>
+	{% else %}
+	<div>
+		<a href="/auth/signin?next=/r/{{thread.key}}">Signin</a> and comment
+	</div>
+	{% endif %}
+</div>
+{% endblock %}

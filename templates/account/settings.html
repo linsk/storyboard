@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="main">
+<form action="" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+<table>
+	<tr>
+		<th>
+			<label for="">Username:</label>
+		</th>
+		<td>
+			{{user.username}}
+		</td>
+	</tr>
+	<tr>
+		<th>
+			<label for="">Email:</label>
+		</th>
+		<td>
+			{{user.email}}
+		</td>
+	</tr>
+{{ form.as_table }}
+{% if user.profile.avatar %}
+<tr>
+	<th>
+		<label for="">Avatar:</label>
+	</th>
+	<td>
+		<img src="/auth/avatar/{{user.username}}.png?r={{user.profile.release}}" width="48" height="48"/>
+	</td>
+</tr>
+{% endif %}
+</table>
+<div class="form-actions">
+	<button type="submit" class="btn btn-primary">Save changes</button>
+</div>
+</form>
+</div>
+{% endblock %}

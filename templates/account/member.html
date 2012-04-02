@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="main">
+	<div class="first vcard">
+		<dl>
+			<dt>Name</dt>
+			<dd itemprop="name">{{member.username}} {% if member.get_full_name %} {{member.get_full_name}} {% endif %}(No.{{member.id}})
+				<!-- ({{member.first_name}} {{member.last_name}}) --></dd>
+		</dl>
+		{% if member.profile.website %}
+  	<dl>
+  		<dt>Website/Blog</dt>
+  		<dd itemprop="url"><a rel="nofollow me" href="{{member.profile.website}}" class="url">{{member.profile.website}}</a></dd>
+  	</dl>
+  	{% endif %}
+  	{% if member.date_joined %}
+  	<dl>
+  		<dt>Member Since</dt>
+  		<dd>{{member.date_joined|date:"Y-m-d H:i:s"}}</dd>
+  	</dl>
+  	{% endif %}
+	</div>
+	<ul>
+	  {% if member.profile.location  %}
+		<li><a href="https://maps.google.com/{{member.profile.location}}">{{member.profile.location}}</a></li>
+		{% endif %}
+		{% if member.profile.twitter %}
+		<li><a href="https://twitter.com/{{member.profile.twitter}}">@{{member.profile.twitter}}</a></li>
+		{% endif %}
+		{% if member.profile.github %}
+		<li><a href="https://github.com/{{member.profile.github}}">{{member.profile.github}}</a></li>
+		{% endif %}
+	</ul>
+	
+	{% if member.profile.signature %}
+  <div>
+    {{member.profile.signature}}
+  </div>
+  {% endif %}
+  
+  {% if member.profile.description %}
+  <div>
+    {{member.profile.description}}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

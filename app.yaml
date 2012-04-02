@@ -1,0 +1,51 @@
+application: cloudsqlapp
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+default_expiration: "21d"
+
+handlers:
+- url: /favicon\.ico
+  static_files: static/favicon.ico
+  upload: favicon\.ico
+
+- url: /static/(.*?)-v(.*).css
+  static_files: static/\1.css
+  upload: static/(.*)
+
+- url: /static/(.*?)-v(.*).js
+  static_files: static/\1.js
+  upload: static/js/(.*)
+    
+- url: /static
+  static_dir: static
+  #/Library/Python/2.7/site-packages/django/contrib/admin/media
+    
+# - url: .*
+#   script: main.application
+libraries:
+- name: django
+  version: "1.3"
+
+- name: PIL
+  version: "1.1.7"
+
+builtins:
+- django_wsgi: on
+
+inbound_services:
+- warmup
+
+error_handlers:
+  - file: default_error.html
+
+  - error_code: over_quota
+    file: over_quota.html
+    
+  - error_code: timeout
+    file: timeout.html
+
+  - error_code: dos_api_denial
+    file: over_quota.html

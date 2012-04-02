@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="main">
+<div>
+	<ul class="breadcrumb">
+	  <li>
+	    <a href="/">Home</a> <span class="divider">/</span>
+	  </li>
+	  <li>
+	    <a href="/note">Note</a> <span class="divider">/</span>
+	  </li>
+	  <li class="active">
+	    <a href="/note/{{ note.key }}">{{ note.title }}</a>
+	  </li>
+		<li style="float:right;">
+	    <a href="/note/add">Add</a>
+	  </li>
+	</ul>
+	<div class="page-header">
+	  <h2>{{ note.title }}</h2>
+	</div>
+	<div>{{ note.text|urlize|linebreaks }}</div>
+	<div>{{ note.updated|date:"Y-m-d H:i:s" }} </div>
+	
+	<div class="form-actions">
+		<form action="/note/{{ note.key }}/delete" method="POST">
+			{% csrf_token %}
+			<a href="/note/{{ note.key }}/edit" class="btn">Edit</a> <button type="submit" class="btn btn-primary" onclick="if (!confirm('确认彻底删除标题为 {{ note.title }} 的记事？')){return false;}">Delete</button>
+		</form>
+	</div>
+</div>
+</div>
+{% endblock %}

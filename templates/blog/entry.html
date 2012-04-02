@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block body %}
+<ul class="breadcrumb">
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="/blog">Blog</a> <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="/blog/entry/{{entry.key}}">{{entry.title}}</a>
+  </li>
+{% if user.is_authenticated %}
+	<li style="float:right;">
+    <a href="/blog/add">Add</a>
+  </li>
+{% endif %}
+</ul>
+<div class="main">
+<div style="width: 100%;">
+	
+	<div class="page-header">
+	  <h2>{{entry.title}}</h2>
+	</div>
+	<div>
+	{% autoescape off %}
+	{{entry.text_html}}
+	{% endautoescape %}
+	</div>
+	<div>
+		{{ entry.updated|date:"Y-m-d H:i:s" }}
+	</div>
+	{% if relationship %}
+	<div>
+		Tags:
+		{% for r in relationship %}
+		<a href="#{{r.tag.slug}}">{{r.tag.name}}</a>
+		{% endfor %}
+	</div>
+	{% endif %}
+	{% if user.is_authenticated %}
+	<div>
+		<a href="/blog/entry/{{entry.key}}/edit">Edit</a>
+	</div>
+	{% endif %}
+</div>
+</div>
+{% endblock %}

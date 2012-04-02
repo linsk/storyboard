@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/media/";</script> 
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/media/js/core.js"></script>
+<script type="text/javascript" src="/static/media/js/calendar.js"></script>
+<script type="text/javascript" src="/static/media/js/admin/DateTimeShortcuts.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/media/css/base.css" /> 
+<link rel="stylesheet" type="text/css" href="/static/media/css/widgets.css" media="screen" />
+{% block body %}
+<ul class="breadcrumb">
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="/blog">Blog</a> <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="/blog/add">New Entry</a>
+  </li>
+</ul>
+
+<div class="main">
+<form action="" method="POST">
+	{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+<div class="form-actions">
+	<button type="submit" class="btn btn-primary">Save</button>
+</div>
+</form>
+</div>
+{% endblock %}

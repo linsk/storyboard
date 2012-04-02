@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="main">
+<ul class="breadcrumb">
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="/note">Note</a>
+  </li>
+	<li style="float:right;">
+    <a href="/note/add">Add</a>
+  </li>
+</ul>
+
+<table class="table table-striped">
+	{% for note in notes %}
+		<tr><td><a href="/note/{{note.key}}">{{note.title}}</a><br>
+			{{note.updated|date:"Y-m-d H:i:s"}}
+		</td></tr>
+	{% endfor %}
+</table>
+</div>
+{% endblock %}

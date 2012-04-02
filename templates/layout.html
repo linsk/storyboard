@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ site.sitename }} {% if site.tagline %} {{ site.tagline }} {% endif %}</title>
+  <!-- Le styles -->
+  <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+  <!--link href="//twitter.github.com/bootstrap/assets/css/docs.css" rel="stylesheet">
+  <link href="//twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet"-->
+	<link href="/static/style-v{{request.META.CURRENT_VERSION_ID}}.css" rel="stylesheet">
+	{%comment%}
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+	{%endcomment%}
+	<!-- {% load filter %} -->
+</head>
+<body data-spy="scroll" data-target=".subnav" data-offset="50">
+	<div class="navbar navbar-fixed-top">
+	  <div class="navbar-inner">
+	    <div class="container">
+				<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				  <span class="icon-bar"></span>
+				  <span class="icon-bar"></span>
+				  <span class="icon-bar"></span>
+				</a>
+
+				<!-- Be sure to leave the brand out there if you want it shown -->
+				<a class="brand" href="/">{{ site.sitename }}</a>
+
+				<!-- Everything you want hidden at 940px or less, place within here -->
+				<div class="nav-collapse">
+				  <!-- .nav, .navbar-search, .navbar-form, etc -->
+					<ul class="nav">
+					  <li class="active"><a href="/">Home</a></li>
+						<li><a href="/r">Board</a></li>
+						
+						<li><a href="/blog">Blog</a></li>
+						
+					  <li><a href="/note">Note</a></li>
+					  <li><a href="/about">About</a></li>
+					</ul>
+					<!--form class="navbar-search pull-left">
+					  <input type="text" class="search-query" placeholder="Search">
+					</form-->
+					<ul class="nav pull-right">
+						{% if user.is_authenticated %}
+					  <li class="dropdown">
+					    <a href="#"
+					          class="dropdown-toggle"
+					          data-toggle="dropdown">
+					          {% if user.get_full_name %}{{user.get_full_name}} {% else %} {{ user.username }} {% endif %}
+					          <b class="caret"></b>
+					    </a>
+					    <ul class="dropdown-menu">
+								<li><a href="/settings">Settings</a></li>
+								<li><a href="/settings/custom_style">Custom Style</a></li>
+								<li class="divider"></li>
+								<li><a href="/auth/password_change">Change password</a></li>
+								<li><a href="/auth/logs">Login logs</a></li>
+								<li class="divider"></li>
+								<li><a href="/auth/signout">Sign Out</a></li>
+					    </ul>
+					  </li>
+						{% else %}
+						<li class=""><a href="/auth/signup">Signup</a></li>
+						<li class=""><a href="/auth/signin">Signin</a></li>
+						{% endif %}
+					</ul>
+				</div>
+				
+	    </div>
+	  </div>
+	</div>
+	<div class="container-fluid">
+		
+		  <div class="row-fluid">
+		    <div class="span4">
+		      <!--Sidebar content-->
+					<div class="sidebar">
+						<!-- widget begin -->
+						<div id="user-panel" class="widget">
+							{% if user.is_authenticated %}
+							<div style="padding:5px;">
+								<!-- {% gravatar_url user.email %} -->
+								<!--http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=48-->
+								<a href="/member/{{ user.username }}" class="avatar"><img src="{% gravatar_url user.email %}"  class="avatar-normal"></a> <a href="/member/{{ user.username }}">{% if user.get_full_name %}{{user.get_full_name}} {% else %} {{ user.username }} {% endif %}</a></div>
+							<div>Last: {{ user.last_login|date:"Y-m-d H:i:s" }}</div>
+							<div class="btn-group">
+							  <a class="btn" href="/r/favorites">Favorites</a>
+							  <a class="btn" href="#">222</a>
+							  <a class="btn" href="#">333</a>
+							</div>
+							{%else%}
+							<div>
+							<a href="/auth/signin">Signin</a> or <a href="/auth/signup">Signup</a>
+							</div>
+							{%endif%}
+						</div>
+						<!-- widget end -->
+						{% if updated_tags %}
+						<div class="widget">
+							{% for tag in updated_tags %}
+								<span><a href="/r/tag/{{tag.slug}}" class="btn">{{tag.name}}</a></span>
+							{% endfor %}
+						</div>
+						{% endif %}
+						<div class="widget">
+              <script type="text/javascript">
+              google_ad_client = "ca-pub-0380260966464998";
+              google_ad_slot = "2545226538";
+              google_ad_width = 250;
+              google_ad_height = 250;</script>
+              <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+						</div>
+					</div>
+		    </div>
+		    <div class="span8">
+		      <!--Body content-->
+					<div class="content">
+					{% block body %}
+					<div class="main">
+					</div>
+					<div class="main">
+					</div>
+					{% endblock %}
+					</div>
+		    </div>
+		  </div>
+		
+	</div>
+	<div class="container">
+		<hr>
+		<footer>
+		<p>&copy; {{ site.sitename }} 2012, Powered by <a href="https://github.com/tearnon/storyboard" target="_blank" title="Story Board">Story Board</a> {{ site.version }} , Now:{% now "Y-m-d H:i:s" %}  </p>
+		{% if user.is_superuser %}
+		<!--p>{{user.is_authenticated}} {{csrf_token}} {{user}} {{ debug }} {{LANGUAGE_CODE}}</p-->
+		<p>{{request.META.HTTP_USER_AGENT}}</p>
+		<p>Version:{{site.version}} Build:{{request.META.CURRENT_VERSION_ID}}  Runtime:{{request.META.SERVER_SOFTWARE}} with {{request.META.APPENGINE_RUNTIME}} Remote:{% if request.META.HTTP_X_FORWARDED_FOR %} {{request.META.HTTP_X_FORWARDED_FOR}} {% else %} {{request.META.REMOTE_ADDR}}{% endif %} </p>
+		<!--p>{request}}</p-->
+		{% endif %}
+		</footer>
+	</div>
+	<script src="/static/jquery.js"></script>
+	<script src="/static/bootstrap/js/bootstrap.js"></script>
+	<script>
+	$('.dropdown-toggle').dropdown();
+	$('#myCarousel').carousel('cycle');
+	/*$('.carousel').carousel();*/
+	</script>
+	{% if site.ga %}
+	<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', '{{site.ga}}']);/*UA-1390856-1*/
+	_gaq.push(['_trackPageview']);
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+	</script>
+	{% endif %}
+</body>
+</html>
