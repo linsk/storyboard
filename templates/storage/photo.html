@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block body %}
+<ul class="breadcrumb">
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="/photo">Photo</a> 
+  </li>
+{% if user.is_authenticated %}
+	<li style="float:right;">
+    <a href="/photo/upload">Upload</a>
+  </li>
+{% endif %}
+</ul>
+<div class="main">
+  <div class="vcard">
+    <dl>
+			<dt>FileName</dt>
+			<dd>{{ image.origin.name }}</dd>
+		</dl>
+		<dl>
+			<dt>Uploaded</dt>
+			<dd>{{ image.origin.created|date:"Y-m-d H:i:s" }}</dd>
+		</dl>
+    <input value="{{image.url}}" style="width:100%;" type="hidden"/>
+  </div>
+  <img src="{{image.url}}" />
+</div>
+{% endblock %}

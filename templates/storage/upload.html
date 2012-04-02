@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+<ul class="breadcrumb">
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="/photo">Photo</a> 
+  </li>
+{% if user.is_authenticated %}
+	<li style="float:right;">
+    <a href="/photo/upload">Upload</a>
+  </li>
+{% endif %}
+</ul>
+<div class="main">
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Upload</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

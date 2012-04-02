@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<ul class="breadcrumb">
+  <li>
+    <a href="/">Home</a> <span class="divider">/</span>
+  </li>
+  <li class="active">
+    <a href="/photo">Photo</a> 
+  </li>
+{% if user.is_authenticated %}
+	<li style="float:right;">
+    <a href="/photo/upload">Upload</a>
+  </li>
+{% endif %}
+</ul>
+<div class="main photos">
+<ul>
+	{% for photo in photos %}
+	<li>
+	  <a href="/photo/{{photo.key}}" title="{{photo.name}}"><img src="/photo/thumb/{{photo.key}}.png" width="100" height="100" alt="{{photo.name}}"/></a>
+	</li>
+	{% endfor %}
+</ul>
+</div>
+{% endblock %}

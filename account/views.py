@@ -28,9 +28,8 @@ from models import *
 from forms import *
 
 from google.appengine.api import files
-GOOGLE_STORAGE = 'gs'
-BUCKET = 'storage.ioio.name'
-FOLDER = 'uploads/ohbug'
+from config import GOOGLE_STORAGE,BUCKET,FOLDER
+
 try:
 	files.gs
 except AttributeError:
@@ -103,7 +102,7 @@ def settings(request):
             # logging.info(request.FILES['img'])
             # logging.info(type(request.FILES['img']))
             if request.FILES.has_key('img'):
-                file_name = "demo/avatar/normal/%s.png" % request.user.username
+                file_name = "uploads/ohbug/avatar/normal/%s.png" % request.user.username
                 file_path = '/%s/%s/%s' % (GOOGLE_STORAGE,BUCKET,file_name)
                 #logging.info(file_path)
                 #logging.info(dir(request.FILES['img']))
@@ -141,15 +140,15 @@ def read_gs(read_path):
 def avatar(request,username=None):
     image_data = None
     if username:
-        file_name = "demo/avatar/normal/%s.png" % username
+        file_name = "uploads/ohbug/avatar/normal/%s.png" % username
     else:
-        file_name = "demo/avatar/normal/%s.png" % request.user.username
+        file_name = "uploads/ohbug/avatar/normal/%s.png" % request.user.username
     read_path = '/%s/%s/%s' % (GOOGLE_STORAGE,BUCKET,file_name)
     
     image_data = read_gs(read_path)
     
     if not image_data:
-        file_name = "demo/avatar/normal/default.png"
+        file_name = "uploads/ohbug/avatar/normal/default.png"
         read_path = '/%s/%s/%s' % (GOOGLE_STORAGE,BUCKET,file_name)
     	image_data = read_gs(read_path)
     	

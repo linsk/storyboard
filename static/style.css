@@ -45,6 +45,34 @@ html body .container{
 #user-panel{
   padding: 20px;
 }
+
+/*photos*/
+.photos ul{
+	margin:0;
+	padding:0;
+}
+
+.photos li{
+	display:inline-block;
+	margin:2px auto 0px;
+	color:#333;
+	padding:3px 3px;
+	border-radius:5px;
+	width:105px;
+	height:105px;
+}
+.photos a{
+	text-decoration:none;
+}
+.photos img{
+	border:1px solid #DEE1E4;
+	padding:1px;
+}
+
+.photos img:hover{
+	border-color:#60a5ff;
+}
+
 /* list */
 
 ul.thread-list{
