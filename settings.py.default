@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'message',
     'board',
     'blog',
+    'storage',
 )
 AUTH_PROFILE_MODULE = 'account.Account'
 LOGIN_URL = '/auth/signin'
